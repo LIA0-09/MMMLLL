@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>廖芊蓁 | 個人網頁</title>
+  <meta name="description" content="廖芊蓁的個人網站。日系簡約風格、柔和紫色調、記錄生活與熱愛。">
+
+  <!-- Google Fonts: Zen Maru Gothic (日系圓體) + Outfit (現代英文字體) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================
+       1. CSS 變數系統 (日系紫藤美學調色盤)
+       ========================================= */
+    :root {
+      --color-primary: #8572c0;          /* 主色：藤紫 / Lavender Wisteria */
+      --color-primary-dark: #63509e;     /* 深紫：沈穩文字與重音 */
+      --color-primary-light: #ab9be0;    /* 淺藤紫 */
+      --color-primary-soft: #f1edfb;     /* 極淡柔霧紫背景 */
+      --color-primary-glow: rgba(133, 114, 192, 0.25);
+      
+      --color-accent-pink: #f4c2d7;      /* 櫻粉點綴 */
+      --color-accent-mint: #bfe5dc;      /* 淡薄荷綠點綴 */
+      
+      --color-bg-base: #f9f8fd;          /* 主背景底色：極淡日系奶霧紫 */
+      --color-card-bg: rgba(255, 255, 255, 0.88);
+      --color-card-border: rgba(133, 114, 192, 0.14);
+      
+      --color-text-main: #2b253b;        /* 主文字：深石墨紫 */
+      --color-text-muted: #746d87;       /* 次要文字：灰紫 */
+      --color-text-light: #9e97b1;       /* 淺灰紫 */
+
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 4px 12px rgba(99, 80, 158, 0.04);
+      --shadow-md: 0 8px 24px rgba(99, 80, 158, 0.08);
+      --shadow-lg: 0 16px 40px rgba(99, 80, 158, 0.12);
+      --shadow-glow: 0 0 30px rgba(133, 114, 192, 0.28);
+
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --font-base: 'Zen Maru Gothic', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* =========================================
+       2. 基礎設定與重置
+       ========================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-base);
+      background-color: var(--color-bg-base);
+      color: var(--color-text-main);
+      line-height: 1.8;
+      overflow-x: hidden;
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(171, 155, 224, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 45%, rgba(244, 194, 215, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 30% 85%, rgba(133, 114, 192, 0.12) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* 背景日系微米點格飾紋 (Subtle Pattern) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-size: 28px 28px;
+      background-image: radial-gradient(rgba(133, 114, 192, 0.08) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* =========================================
+       3. 捲動進場動畫 (Scroll Fade In)
+       ========================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 延遲動畫階梯 */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* =========================================
+       4. 導覽列 (Floating Glass Nav)
+       ========================================= */
+    .nav-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-full);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      max-width: 820px;
+      width: 100%;
+    }
+
+    .navbar:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(133, 114, 192, 0.28);
+    }
+
+    .nav-logo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--color-primary);
+      animation: pulse 2.4s infinite ease-in-out;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      position: relative;
+      padding: 4px 2px;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 2px;
+      transition: var(--transition-smooth);
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary-dark);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-btn {
+      background: var(--color-primary-soft);
+      color: var(--color-primary-dark);
+      border: 1px solid rgba(133, 114, 192, 0.22);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn:hover {
+      background: var(--color-primary);
+      color: #fff;
+      transform: scale(1.04);
+      box-shadow: 0 4px 14px var(--color-primary-glow);
+    }
+
+    /* =========================================
+       5. HERO 主視覺區域 (日系氛圍感)
+       ========================================= */
+    .hero {
+      min-height: 100vh;
+      padding: 130px 0 70px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--color-card-border);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-primary-dark);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .hero-tag .sparkle {
+      color: var(--color-primary);
+      font-size: 0.95rem;
+    }
+
+    .hero-name-group {
+      margin-bottom: 18px;
+    }
+
+    .hero-ruby {
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .hero-name {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      color: var(--color-text-main);
+      letter-spacing: 2px;
+      line-height: 1.2;
+    }
+
+    /* 「哈囉」焦點引用小卡 */
+    .hello-quote-card {
+      background: var(--color-card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(133, 114, 192, 0.22);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 14px 0 26px;
+      position: relative;
+      box-shadow: var(--shadow-md);
+      width: 100%;
+      max-width: 480px;
+      transition: var(--transition-smooth);
+    }
+
+    .hello-quote-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+    }
+
+    .hello-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: #fff;
+      background: var(--color-primary);
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .hello-quote-text {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--color-primary-dark);
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hello-quote-text .emoji {
+      display: inline-block;
+      animation: wave 2.2s infinite ease-in-out origin-center;
+      transform-origin: 70% 70%;
+    }
+
+    .hello-subtext {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .hero-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .mini-badge {
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(133, 114, 192, 0.16);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      color: var(--color-text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .mini-badge:hover {
+      background: var(--color-primary-soft);
+      color: var(--color-primary-dark);
+      border-color: var(--color-primary-light);
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: #fff;
+      padding: 13px 28px;
+      border-radius: var(--radius-full);
+      font-size: 0.98rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px var(--color-primary-glow);
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(133, 114, 192, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--color-text-main);
+      border: 1px solid var(--color-card-border);
+      padding: 13px 24px;
+      border-radius: var(--radius-full);
+      font-size: 0.98rem;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      background: #fff;
+      border-color: var(--color-primary);
+      color: var(--color-primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Hero 右側可愛頭像框與裝飾球 */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .avatar-wrapper {
+      width: 320px;
+      height: 320px;
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      background: linear-gradient(145deg, #dfd7f7, #f7d6e6, #cebeea);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      box-shadow: var(--shadow-glow);
+      animation: morphBlob 9s ease-in-out infinite alternate;
+      border: 4px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .avatar-inner {
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    /* 日系可愛頭像 SVG 插畫 */
+    .avatar-svg {
+      width: 170px;
+      height: 170px;
+      transition: var(--transition-smooth);
+    }
+
+    .avatar-wrapper:hover .avatar-svg {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .avatar-badge-text {
+      position: absolute;
+      bottom: 24px;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(6px);
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      color: var(--color-primary-dark);
+      font-weight: 700;
+      border: 1px solid var(--color-card-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* 懸浮裝飾氣泡 */
+    .float-chip {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-full);
+      padding: 8px 16px;
+      box-shadow: var(--shadow-md);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .float-chip-1 {
+      top: 10px;
+      right: -10px;
+      animation: floatUp 4s ease-in-out infinite;
+    }
+
+    .float-chip-2 {
+      bottom: 20px;
+      left: -20px;
+      animation: floatUp 5s ease-in-out infinite reverse;
+    }
+
+    /* =========================================
+       6. 區塊通用標題 (Japanese Aesthetic Heading)
+       ========================================= */
+    .section {
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-subtitle {
+      font-size: 0.82rem;
+      letter-spacing: 3px;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 6px;
+      position: relative;
+    }
+
+    .section-subtitle::before,
+    .section-subtitle::after {
+      content: "―";
+      margin: 0 8px;
+      opacity: 0.5;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-weight: 900;
+      color: var(--color-text-main);
+      letter-spacing: 1px;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      margin-top: 10px;
+    }
+
+    /* =========================================
+       7. 關於我 (About Me Section)
+       ========================================= */
+    .about-card {
+      background: var(--color-card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 44px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::after {
+      content: "和";
+      position: absolute;
+      right: 20px;
+      bottom: -10px;
+      font-size: 110px;
+      font-weight: 900;
+      color: rgba(133, 114, 192, 0.04);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .about-intro-text {
+      font-size: 1.15rem;
+      line-height: 2;
+      color: var(--color-text-main);
+      margin-bottom: 36px;
+      text-align: justify;
+    }
+
+    .about-intro-text strong {
+      color: var(--color-primary-dark);
+      background: linear-gradient(transparent 65%, rgba(171, 155, 224, 0.3) 65%);
+      padding: 0 4px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .profile-pill {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(133, 114, 192, 0.12);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .profile-pill:hover {
+      background: #fff;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary-light);
+    }
+
+    .pill-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+    }
+
+    .pill-title {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .pill-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    /* =========================================
+       8. 日常與喜好 (Interests & Style)
+       ========================================= */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 26px;
+    }
+
+    .interest-card {
+      background: var(--color-card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .interest-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(133, 114, 192, 0.35);
+    }
+
+    .card-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-text {
+      font-size: 0.94rem;
+      color: var(--color-text-muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag-item {
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary-dark);
+      border-radius: var(--radius-full);
+      font-weight: 500;
+    }
+
+    /* =========================================
+       9. 互動悄悄話橫幅 (Quote & Heart Tap)
+       ========================================= */
+    .banner-box {
+      margin: 40px 0;
+      background: linear-gradient(135deg, rgba(133, 114, 192, 0.12), rgba(244, 194, 215, 0.16));
+      border: 1px dashed rgba(133, 114, 192, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .banner-quote {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .banner-caption {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .heart-btn {
+      background: #fff;
+      color: var(--color-primary);
+      border: 1px solid var(--color-card-border);
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .heart-btn:hover {
+      background: var(--color-primary-soft);
+      transform: scale(1.06);
+      box-shadow: var(--shadow-md);
+    }
+
+    .heart-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* =========================================
+       10. 聯絡我 (Contact Section)
+       ========================================= */
+    .contact-card {
+      background: var(--color-card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      box-shadow: var(--shadow-md);
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--color-text-main);
+      margin-bottom: 12px;
+    }
+
+    .contact-desc {
+      font-size: 0.96rem;
+      color: var(--color-text-muted);
+      margin-bottom: 32px;
+    }
+
+    .contact-channels {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .contact-channel-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: #fff;
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-full);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-main);
+      transition: var(--transition-smooth);
+    }
+
+    .contact-channel-item:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-channel-item .channel-icon {
+      font-size: 1.15rem;
+      color: var(--color-primary);
+    }
+
+    /* 可愛留言便籤互動 */
+    .quick-message-form {
+      display: flex;
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .quick-input {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-card-border);
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .quick-input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-glow);
+    }
+
+    .quick-btn {
+      background: var(--color-primary);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+
+    .quick-btn:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--color-primary-glow);
+    }
+
+    /* =========================================
+       11. 頁尾 (Footer)
+       ========================================= */
+    .footer {
+      padding: 50px 0 36px;
+      text-align: center;
+      border-top: 1px solid rgba(133, 114, 192, 0.1);
+      margin-top: 50px;
+    }
+
+    .footer-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+    }
+
+    .footer-copy span {
+      color: var(--color-primary);
+      margin: 0 4px;
+    }
+
+    /* 回到頂部按鈕 */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 46px;
+      height: 46px;
+      background: #fff;
+      border: 1px solid var(--color-card-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--color-primary-dark);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px);
+      transition: var(--transition-smooth);
+      z-index: 900;
+      cursor: pointer;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: var(--color-primary);
+      color: #fff;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px var(--color-primary-glow);
+    }
+
+    /* 彈出提示 Toast */
+    .toast-message {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #fff;
+      border: 1px solid var(--color-primary-light);
+      padding: 12px 26px;
+      border-radius: var(--radius-full);
+      color: var(--color-primary-dark);
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition-smooth);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast-message.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* =========================================
+       12. Keyframes 動畫
+       ========================================= */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(14deg); }
+      40% { transform: rotate(-8deg); }
+      60% { transform: rotate(14deg); }
+      80% { transform: rotate(-4deg); }
+    }
+
+    @keyframes morphBlob {
+      0% {
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      }
+      50% {
+        border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+      }
+      100% {
+        border-radius: 35% 65% 55% 45% / 60% 45% 55% 40%;
+      }
+    }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* =========================================
+       13. 響應式微調 (Mobile & Tablet)
+       ========================================= */
+    @media (max-width: 860px) {
+      .hero {
+        padding: 110px 0 50px;
+        text-align: center;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero-content {
+        align-items: center;
+      }
+
+      .hello-quote-card {
+        margin: 14px auto 26px;
+      }
+
+      .hero-tags-row {
+        justify-content: center;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .avatar-wrapper {
+        width: 250px;
+        height: 250px;
+      }
+
+      .avatar-inner {
+        width: 210px;
+        height: 210px;
+      }
+
+      .avatar-svg {
+        width: 130px;
+        height: 130px;
+      }
+
+      .about-card {
+        padding: 28px 20px;
+      }
+
+      .contact-card {
+        padding: 36px 20px;
+      }
+
+      .nav-links {
+        display: none; /* 手機端簡化導覽列 */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .quick-message-form {
+        flex-direction: column;
+      }
+
+      .quick-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 浮動導覽列 -->
+  <div class="nav-wrapper">
+    <nav class="navbar">
+      <a href="#home" class="nav-logo">
+        <span class="nav-logo-dot"></span>
+        廖芊蓁
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about" class="nav-link">關於我</a></li>
+        <li><a href="#lifestyle" class="nav-link">生活日常</a></li>
+        <li><a href="#contact" class="nav-link">聯絡交流</a></li>
+      </ul>
+      <button class="nav-btn" onclick="sayHello()">
+        <span>哈囉</span> 👋
+      </button>
+    </nav>
+  </div>
+
+  <!-- 主視覺 (Hero Section) -->
+  <header id="home" class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- 左側自我介紹內容 -->
+        <div class="hero-content">
+          <div class="hero-tag reveal">
+            <span class="sparkle">✦</span>
+            <span>ようこそ・個人網頁空間</span>
+          </div>
+
+          <div class="hero-name-group reveal delay-1">
+            <span class="hero-ruby">LIAO QIANZHEN</span>
+            <h1 class="hero-name">廖芊蓁</h1>
+          </div>
+
+          <!-- 一句話介紹自己：「哈囉」 -->
+          <div class="hello-quote-card reveal delay-2">
+            <span class="hello-badge">SELF-INTRODUCTION</span>
+            <div class="hello-quote-text">
+              <span>「 哈囉 」</span>
+              <span class="emoji">👋</span>
+            </div>
+            <p class="hello-subtext">
+              保持輕柔、真誠與好奇。這裡是我的小小天地，記錄著生活裡的溫柔紫色光影與美好瞬間。
+            </p>
+          </div>
+
+          <div class="hero-tags-row reveal delay-3">
+            <span class="mini-badge">💜 薰衣草紫調</span>
+            <span class="mini-badge">✨ 日系簡約風</span>
+            <span class="mini-badge">🍵 慢活日常</span>
+            <span class="mini-badge">🌱 探索熱愛</span>
+          </div>
+
+          <div class="hero-actions reveal delay-4">
+            <button class="btn-primary" onclick="sayHello()">
+              <span>與我打聲招呼</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+            <a href="#about" class="btn-secondary">深入認識我 ↓</a>
+          </div>
+        </div>
+
+        <!-- 右側日系插畫頭像與裝飾 -->
+        <div class="hero-visual reveal delay-2">
+          <div class="avatar-wrapper">
+            <div class="avatar-inner">
+              <!-- 精緻日系手繪風頭像 SVG -->
+              <svg class="avatar-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- 柔和背景層 -->
+                <circle cx="100" cy="100" r="90" fill="#F4EFFC"/>
+                <!-- 頭髮後層 -->
+                <path d="M50 115C45 80 70 45 100 45C130 45 155 80 150 115C148 135 142 165 140 170H60C58 165 52 135 50 115Z" fill="#3D334E"/>
+                <!-- 臉蛋輪廓 -->
+                <ellipse cx="100" cy="110" rx="42" ry="46" fill="#FFF5ED"/>
+                <!-- 瀏海與髮型 -->
+                <path d="M60 90C62 65 78 52 100 52C122 52 138 65 140 90C132 82 118 78 100 80C82 78 68 82 60 90Z" fill="#4B3F5F"/>
+                <path d="M68 88C78 105 75 125 72 135" stroke="#4B3F5F" stroke-width="4" stroke-linecap="round"/>
+                <path d="M132 88C122 105 125 125 128 135" stroke="#4B3F5F" stroke-width="4" stroke-linecap="round"/>
+                <!-- 雙眼 (溫和微笑) -->
+                <path d="M83 108C86 112 91 112 94 108" stroke="#3D334E" stroke-width="3" stroke-linecap="round"/>
+                <path d="M106 108C109 112 114 112 117 108" stroke="#3D334E" stroke-width="3" stroke-linecap="round"/>
+                <!-- 腮紅 -->
+                <circle cx="80" cy="116" r="6" fill="#F8B6CE" fill-opacity="0.6"/>
+                <circle cx="120" cy="116" r="6" fill="#F8B6CE" fill-opacity="0.6"/>
+                <!-- 微笑 -->
+                <path d="M96 122C98 125 102 125 104 122" stroke="#B87B8A" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- 衣服 (紫藤針織衫) -->
+                <path d="M68 154C75 145 88 140 100 140C112 140 125 145 132 154L144 190H56L68 154Z" fill="#8572C0"/>
+                <!-- 蝴蝶結 / 裝飾花 -->
+                <circle cx="128" cy="75" r="7" fill="#F4C2D7"/>
+                <circle cx="128" cy="75" r="3" fill="#FFF"/>
+              </svg>
+              <div class="avatar-badge-text">廖芊蓁 ・ Qianzhen</div>
+            </div>
+          </div>
+          <div class="float-chip float-chip-1">
+            <span>🌸</span>
+            <span>日系簡約</span>
+          </div>
+          <div class="float-chip float-chip-2">
+            <span>☕</span>
+            <span>生活美學</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- 關於我 (About Section) -->
+  <section id="about" class="section">
+    <div class="container">
+      
+      <div class="section-header reveal">
+        <span class="section-subtitle">ABOUT ME</span>
+        <h2 class="section-title">關於廖芊蓁</h2>
+        <p class="section-desc">「哈囉」是一切美好的開始，以簡單純粹的心感受世界。</p>
+      </div>
+
+      <div class="about-card reveal delay-1">
+        <p class="about-intro-text">
+          哈囉！我是<strong>廖芊蓁</strong>。喜歡乾淨純粹的<strong>日系生活風格</strong>，對於帶有一抹沉靜又溫暖的<strong>紫色調</strong>情有獨鍾。
+          平時喜歡觀察身邊微小的美好事物，無論是午後灑進窗台的陽光、一杯恰到好處的手沖飲品，或是簡潔舒適的介面設計，都能讓我感到心靈豐足。
+          秉持著<strong>「簡單、溫柔、保持好奇」</strong>的態度，在每一個平凡的日子裡踏實前行。
+        </p>
+
+        <div class="profile-grid">
+          <div class="profile-pill reveal delay-1">
+            <div class="pill-icon">🏷️</div>
+            <div class="pill-title">姓名</div>
+            <div class="pill-value">廖芊蓁</div>
+          </div>
+
+          <div class="profile-pill reveal delay-2">
+            <div class="pill-icon">🎨</div>
+            <div class="pill-title">最愛風格與顏色</div>
+            <div class="pill-value">日系簡約 / 薰衣草紫</div>
+          </div>
+
+          <div class="profile-pill reveal delay-3">
+            <div class="pill-icon">💬</div>
+            <div class="pill-title">個人代表語</div>
+            <div class="pill-value">「 哈囉 」</div>
+          </div>
+
+          <div class="profile-pill reveal delay-4">
+            <div class="pill-icon">✨</div>
+            <div class="pill-title">生活態度</div>
+            <div class="pill-value">溫柔日常・自在隨心</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 生活與喜好 (Lifestyle & Passions) -->
+  <section id="lifestyle" class="section">
+    <div class="container">
+      
+      <div class="section-header reveal">
+        <span class="section-subtitle">MY FAVORITES</span>
+        <h2 class="section-title">喜歡的風格與事物</h2>
+        <p class="section-desc">凝聚我所喜愛的生活元素與美學追求</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <div class="interest-card reveal delay-1">
+          <span class="card-num">01 / AESTHETICS</span>
+          <h3 class="card-title"><span>🎐</span> 日系美學</h3>
+          <p class="card-text">
+            熱愛留白帶來的呼吸感，重視生活細節與天然柔和的氛圍。追求乾淨、輕巧與耐看的美好視覺。
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">簡約</span>
+            <span class="tag-item">留白藝術</span>
+            <span class="tag-item">柔和色系</span>
+          </div>
+        </div>
+
+        <div class="interest-card reveal delay-2">
+          <span class="card-num">02 / COLOR THEME</span>
+          <h3 class="card-title"><span>💜</span> 紫色狂熱</h3>
+          <p class="card-text">
+            最迷戀紫色調的層次變化——從晨曦淡薄的藤紫、優雅從容的薰衣草紫，到靜謐沈穩的深墨紫，每一種紫都有專屬的故事。
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">藤紫</span>
+            <span class="tag-item">薰衣草</span>
+            <span class="tag-item">丁香紫</span>
+          </div>
+        </div>
+
+        <div class="interest-card reveal delay-3">
+          <span class="card-num">03 / LIFESTYLE</span>
+          <h3 class="card-title"><span>🌿</span> 簡約生活</h3>
+          <p class="card-text">
+            減法日常，捨棄繁複與喧囂。喜歡整理收納、聽著輕快的 Lo-Fi 音樂，讓心靈在安靜專注中被治癒。
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">減法生活</span>
+            <span class="tag-item">放鬆時光</span>
+            <span class="tag-item">專注</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 可愛互動點擊橫幅 -->
+      <div class="banner-box reveal delay-2">
+        <div class="banner-quote">「 簡單的一聲哈囉，能為日常捎來一縷微光。」</div>
+        <p class="banner-caption">點擊按鈕，為廖芊蓁的主頁送上一份紫色的溫暖祝福吧！</p>
+        <button class="heart-btn" onclick="sendHeart()">
+          <span id="heartIcon">💜</span>
+          <span id="heartText">送出一顆愛心</span>
+          <span id="heartCount" style="background: var(--color-primary-soft); padding: 2px 8px; border-radius: 99px; font-size: 0.82rem;">12</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 聯絡交流 (Contact Section) -->
+  <section id="contact" class="section">
+    <div class="container">
+      
+      <div class="section-header reveal">
+        <span class="section-subtitle">GET IN TOUCH</span>
+        <h2 class="section-title">與我打個招呼</h2>
+        <p class="section-desc">無論是想聊聊生活、分享喜好，都隨時歡迎！</p>
+      </div>
+
+      <div class="contact-card reveal delay-1">
+        <h3 class="contact-title">期待和你說聲「哈囉」！✨</h3>
+        <p class="contact-desc">
+          如果你也喜歡日系簡約風格或溫柔的紫色調，歡迎透過以下方式和我交流。
+        </p>
+
+        <div class="contact-channels">
+          <a href="mailto:qianzhen@example.com" class="contact-channel-item" onclick="event.preventDefault(); showToast('信箱連結已複製或可直接來信！📧');">
+            <span class="channel-icon">✉️</span>
+            <span>qianzhen@example.com</span>
+          </a>
+          <a href="#contact" class="contact-channel-item" onclick="event.preventDefault(); showToast('Instagram: @qianzhen_liao 🌸');">
+            <span class="channel-icon">📷</span>
+            <span>@qianzhen_liao</span>
+          </a>
+        </div>
+
+        <!-- 快速留一句哈囉 -->
+        <form class="quick-message-form" onsubmit="handleSendGreeting(event)">
+          <input type="text" id="greetingInput" class="quick-input" placeholder="留一句話給芊蓁吧..." required>
+          <button type="submit" class="quick-btn">發送哈囉 💌</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 頁尾 (Footer) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-name">廖芊蓁 ・ Liao Qianzhen</div>
+      <p class="footer-copy">
+        © 2026 廖芊蓁. Made with <span>💜</span> 日系簡約風格
+      </p>
+    </div>
+  </footer>
+
+  <!-- 回到頂部按鈕 -->
+  <button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="回到頂部">
+    ↑
+  </button>
+
+  <!-- 互動彈出提示 (Toast Notification) -->
+  <div class="toast-message" id="toastMessage">
+    <span id="toastIcon">✨</span>
+    <span id="toastContent">哈囉！很高興遇見你！</span>
+  </div>
+
+  <!-- =========================================
+       14. 輕量原生 JavaScript 互動與動畫邏輯
+       ========================================= -->
+  <script>
+    // 1. 捲動淡入動畫 (Intersection Observer)
+    document.addEventListener("DOMContentLoaded", () => {
+      const reveals = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            // 若只需動畫播放一次可解除監聽
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      });
+
+      reveals.forEach(element => {
+        revealObserver.observe(element);
+      });
+    });
+
+    // 2. 回到頂部按鈕控制
+    const backToTopBtn = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    // 3. 彈出提示通知 (Toast)
+    let toastTimeout;
+    function showToast(message, icon = "✨") {
+      const toast = document.getElementById("toastMessage");
+      const toastContent = document.getElementById("toastContent");
+      const toastIcon = document.getElementById("toastIcon");
+
+      toastContent.textContent = message;
+      toastIcon.textContent = icon;
+
+      toast.classList.add("show");
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    // 4. 「哈囉」按鈕互動
+    function sayHello() {
+      showToast("哈囉！廖芊蓁很高興遇見你 💜", "👋");
+      createFloatingEmoji("💜");
+    }
+
+    // 5. 愛心按鈕計數互動
+    let heartLikes = 12;
+    function sendHeart() {
+      heartLikes++;
+      document.getElementById("heartCount").textContent = heartLikes;
+      document.getElementById("heartText").textContent = "感謝你的愛心！";
+      showToast("收到你的紫色愛心了！謝謝你 ✨", "💜");
+      createFloatingEmoji("💜");
+      createFloatingEmoji("🌸");
+    }
+
+    // 6. 留言送出表單
+    function handleSendGreeting(e) {
+      e.preventDefault();
+      const input = document.getElementById("greetingInput");
+      const val = input.value.trim();
+      if (val) {
+        showToast(`已收到你的訊息：「${val}」！哈囉！`, "💌");
+        input.value = "";
+        createFloatingEmoji("✨");
+      }
+    }
+
+    // 7. 畫面漂浮小愛心/表情特效
+    function createFloatingEmoji(emojiChar) {
+      const emojiEl = document.createElement("div");
+      emojiEl.textContent = emojiChar;
+      emojiEl.style.position = "fixed";
+      emojiEl.style.left = (Math.random() * 60 + 20) + "vw";
+      emojiEl.style.bottom = "40px";
+      emojiEl.style.fontSize = (Math.random() * 16 + 22) + "px";
+      emojiEl.style.pointerEvents = "none";
+      emojiEl.style.zIndex = "9999";
+      emojiEl.style.transition = "all 1.6s cubic-bezier(0.1, 0.8, 0.3, 1)";
+      emojiEl.style.opacity = "1";
+      emojiEl.style.transform = `translateY(0) scale(1) rotate(${Math.random() * 40 - 20}deg)`;
+
+      document.body.appendChild(emojiEl);
+
+      requestAnimationFrame(() => {
+        emojiEl.style.transform = `translateY(-${Math.random() * 200 + 150}px) scale(1.3) rotate(${Math.random() * 60 - 30}deg)`;
+        emojiEl.style.opacity = "0";
+      });
+
+      setTimeout(() => {
+        emojiEl.remove();
+      }, 1600);
+    }
+  </script>
+</body>
+</html>
